@@ -1,10 +1,11 @@
+
 pragma solidity 0.4.25;
 
 contract Company {
 
     address owner;
 
-    constructor() {
+    constructor() public {
         owner = msg.sender;
         isEmployee[msg.sender] = true;
     }
@@ -13,7 +14,7 @@ contract Company {
     mapping(address => uint) private employeeToHoursWorked;
 
     function addEmployee (address _employee) public {
-        require(msg.sender == owner,"adding Denied");
+        require(msg.sender == owner, "Adding Denied");
         isEmployee[_employee] = true;
     }
 
@@ -22,9 +23,9 @@ contract Company {
         return employeeToHoursWorked[_employee];
     }
 
-    function logHour(uint _hour) public {
-        require(isEmployee[msg.sender],"Log Failed, Not an Employee");
-        employeeToHoursWorked[msg.sender] += _hour;
+    function logHour(address _employee, uint _hour) public {
+        require(isEmployee[_employee], "Log Failed, Not an Employee");
+        employeeToHoursWorked[_employee] += _hour;
     }
     
 }
